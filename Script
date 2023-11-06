@@ -1,0 +1,57 @@
+ // joystick pins
+const int Waist_pin = A0;
+const int Shoulder_pin = A1;
+const int Arm_pin = A2;
+const int Hand_pin = A3;
+
+// variables for analog readings
+int Waist_value;
+int Shoulder_value; 
+int Arm_value;
+int Hand_value;
+
+// variables for servo angles
+int Waist;
+int Shoulder; 
+int Arm;
+int Hand;
+
+// servo setup
+#include <Servo.h>
+Servo Waist_servo;
+Servo Shoulder_servo;
+Servo Arm_servo;
+Servo Hand_servo;
+
+void setup() {
+// set data exchange rate to 9600 bits/second
+  Serial.begin(9600);
+
+// attach servos to digital pins
+  Waist_servo.attach(9);
+  Shoulder_servo.attach(10);
+  Arm_servo.attach(11);
+  Hand_servo.attach(12);
+}
+
+void loop() {
+// read analog joystick pins
+  Waist_value = analogRead(Waist_pin);
+  Shoulder_value = analogRead(Shoulder_pin);
+  Arm_value = analogRead(Arm_pin);
+  Hand_value = analogRead(Hand_pin);
+
+// convert values to servo angles
+  Waist = map(Waist_value,0,1023,0,180);
+  Shoulder = map(Shoulder_value,0,1023,0,180);
+  Arm = map(Arm_value,0,1023,0,180);
+  Hand = map(Hand_value,0,1023,0,180);
+
+  Serial.println(Shoulder_value);
+  
+// write servo angles
+  Waist_servo.write(Waist);
+  Shoulder_servo.write(Shoulder);
+  Arm_servo.write(Arm);
+  Hand_servo.write(Hand);
+}
